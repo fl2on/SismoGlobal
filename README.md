@@ -11,7 +11,7 @@
 
 ## 📸 Screenshot
 
-![image](https://github.com/user-attachments/assets/b3344374-de60-456b-ac6e-1fcce31f071c)
+![image](https://github.com/user-attachments/assets/0d7cd85b-44bb-4d5a-932c-77ae43490d84)
 
 ## 🚀 Key Features
 
