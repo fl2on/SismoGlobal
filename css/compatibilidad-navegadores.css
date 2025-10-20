@@ -1,0 +1,178 @@
+/* ============================================
+   COMPATIBILIDAD ENTRE NAVEGADORES
+   Archivo: compatibilidad-navegadores.css
+   
+   Propósito: Normalización y correcciones para:
+   - Chrome, Safari, Edge (WebKit/Blink)
+   - Firefox (Gecko)
+   - Internet Explorer (deprecado)
+   
+   Funcionalidades:
+   - Normalización de fuentes
+   - Prevención de zoom accidental
+   - Consistencia entre navegadores
+   ============================================ */
+
+/* Normalización de tamaño de fuente base para todos los navegadores */
+html {
+    font-size: 16px !important;
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+/* Safari y webkit - Fix para zoom accidental en inputs */
+@supports (-webkit-touch-callout: none) {
+    input, select, textarea {
+        font-size: 16px !important;
+    }
+}
+
+/* Firefox - Prevenir escalado extraño */
+@-moz-document url-prefix() {
+    body {
+        -moz-text-size-adjust: 100%;
+    }
+}
+
+/* Edge y Internet Explorer - Normalización */
+@supports (-ms-ime-align: auto) {
+    body {
+        -ms-text-size-adjust: 100%;
+    }
+}
+
+/* Chrome y navegadores basados en Chromium */
+@supports (not (-moz-appearance: none)) and (not (-webkit-touch-callout: none)) {
+    html {
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+    }
+}
+
+/* Prevenir zoom en landscape en móviles */
+@media screen and (orientation: landscape) {
+    html {
+        font-size: 16px !important;
+    }
+}
+
+/* Consistencia en el renderizado de fuentes */
+body, button, input, select, textarea {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Fix para Chrome - Prevenir ajuste de tamaño automático */
+* {
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+/* Prevenir overflow horizontal en todos los navegadores */
+body {
+    overflow-x: hidden;
+    position: relative;
+}
+
+html {
+    overflow-x: hidden;
+}
+
+/* Fix para Safari - Box-sizing consistente */
+*, *::before, *::after {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+/* Fix para imágenes que se desbordan */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Renderizado en pantallas de alta resolución */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    body {
+        -webkit-font-smoothing: subpixel-antialiased;
+    }
+}
+
+/* Fix específico para navegadores móviles */
+@media only screen and (max-width: 768px) {
+    body {
+        -webkit-text-size-adjust: none;
+        -moz-text-size-adjust: none;
+        -ms-text-size-adjust: none;
+    }
+    
+    /* Prevenir zoom en inputs en iOS */
+    input[type="text"],
+    input[type="email"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="password"],
+    textarea,
+    select {
+        font-size: 16px !important;
+    }
+}
+
+/* Fix para Chrome en Android - Prevenir ajuste de fuente */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    select, textarea, input {
+        font-size: 16px !important;
+    }
+}
+
+/* Normalizar anchos de contenedor */
+.container {
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Fix para Safari - Smooth scroll */
+html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.card-modern,
+.btn-modern,
+.hover-lift {
+    will-change: transform;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* Fix para Edge - Grid layout */
+@supports (-ms-ime-align: auto) {
+    .grid {
+        display: -ms-grid;
+    }
+}
+
+/* Consistencia en flexbox */
+.flex {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+/* Fix para backdrop-filter en Firefox */
+@supports not (backdrop-filter: blur(10px)) {
+    .glass,
+    .card-modern {
+        background: rgba(0, 0, 0, 0.85) !important;
+    }
+}

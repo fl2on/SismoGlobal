@@ -1,0 +1,2435 @@
+/* ============================================
+   ESTILOS PRINCIPALES - SISMOGLOBAL
+   Archivo: estilos-principales.css
+   
+   Propósito: Estilos base y componentes principales:
+   - Variables CSS (colores, espaciado)
+   - Reset y normalización
+   - Layout principal (header, hero, footer)
+   - Componentes UI (cards, buttons, forms)
+   - Secciones (estadísticas, mapa, noticias)
+   - Tipografía y espaciado
+   - Grid y flexbox
+   
+   Organización:
+   1. Variables y configuración
+   2. Reset global
+   3. Layout y estructura
+   4. Componentes
+   5. Utilidades
+   6. Media queries
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+/* ============================================
+   RESET Y NORMALIZACIÓN BASE
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+:root {
+    --mainColor: crimson;
+    --black: #000000;
+    --white: #FFFFFF;
+    --whiteSmoke: #C4C3CA;
+    --shadow: 0px 4px 8px 0 rgba(21, 21, 21, .2);
+
+    --h2-font-size: 50px;
+    --h2-line-height: 55px;
+}
+
+/* ============================================
+   TEMAS - DARK & LIGHT MODE
+   ============================================ */
+
+/* Tema Oscuro (Default) */
+:root {
+    --bg-primary: #000000;
+    --bg-secondary: #1a1a1a;
+    --bg-surface: #242323;
+    --bg-card: #2d2d2d;
+    
+    --text-primary: #ffffff;
+    --text-secondary: #c4c3ca;
+    --text-muted: #8b8b8b;
+    
+    --border-color: #3a3a3a;
+    --border-hover: #4a4a4a;
+    
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* Tema Claro */
+body.light {
+    --bg-primary: #f8f9fa;
+    --bg-secondary: #ffffff;
+    --bg-surface: #ffffff;
+    --bg-card: #f3f4f6;
+    
+    --text-primary: #111827;
+    --text-secondary: #374151;
+    --text-muted: #6b7280;
+    
+    --border-color: #e5e7eb;
+    --border-hover: #d1d5db;
+    
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Aplicar variables de tema */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.bg-dark-1b {
+    background-color: var(--bg-secondary) !important;
+}
+
+.bg-dark-242323 {
+    background-color: var(--bg-surface) !important;
+}
+
+.bg-surface {
+    background-color: var(--bg-card) !important;
+}
+
+.text-white-color {
+    color: var(--text-primary) !important;
+}
+
+.text-text-secondary {
+    color: var(--text-secondary) !important;
+}
+
+.border-gray-700,
+.border-gray-800 {
+    border-color: var(--border-color) !important;
+}
+
+/* Cards con tema adaptable */
+.card-modern {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+}
+
+.card-modern:hover {
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-hover);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(100px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Animaciones para Alerta de Terremoto */
+@keyframes alertSlideDown {
+    0% { 
+        opacity: 0;
+        transform: translateY(-100%) scale(0.9);
+    }
+    50% {
+        transform: translateY(10px) scale(1.02);
+    }
+    100% { 
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes alertPulse {
+    0%, 100% { 
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7),
+                    0 0 30px rgba(239, 68, 68, 0.3);
+    }
+    50% { 
+        box-shadow: 0 0 0 15px rgba(239, 68, 68, 0),
+                    0 0 50px rgba(239, 68, 68, 0.5);
+    }
+}
+
+@keyframes iconShake {
+    0%, 100% { transform: rotate(0deg); }
+    10%, 30%, 50%, 70%, 90% { transform: rotate(-10deg); }
+    20%, 40%, 60%, 80% { transform: rotate(10deg); }
+}
+
+@keyframes textGlow {
+    0%, 100% { 
+        text-shadow: 0 0 10px rgba(254, 240, 138, 0.5),
+                     0 0 20px rgba(254, 240, 138, 0.3);
+    }
+    50% { 
+        text-shadow: 0 0 20px rgba(254, 240, 138, 0.8),
+                     0 0 30px rgba(254, 240, 138, 0.5),
+                     0 0 40px rgba(254, 240, 138, 0.3);
+    }
+}
+
+@keyframes borderPulse {
+    0%, 100% { 
+        border-left-width: 4px;
+    }
+    50% { 
+        border-left-width: 8px;
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.animate-slideInRight {
+    animation: slideInRight 0.6s ease-out;
+}
+
+.animate-shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+/* Clases para la alerta de terremoto */
+.earthquake-alert-animation {
+    animation: alertSlideDown 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+               alertPulse 2s ease-in-out infinite,
+               borderPulse 1.5s ease-in-out infinite;
+}
+
+.alert-icon-shake {
+    animation: iconShake 0.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(254, 240, 138, 0.8));
+}
+
+.alert-text-glow {
+    animation: textGlow 2s ease-in-out infinite;
+}
+
+/* Glassmorphism */
+.glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Efectos hover */
+.hover-lift {
+    transition: all 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(220, 20, 60, 0.3);
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(220, 20, 60, 0.8), rgba(178, 34, 34, 0.8));
+    border-radius: 10px;
+    border: 2px solid var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, crimson, #dc143c);
+    box-shadow: 0 0 10px rgba(220, 20, 60, 0.5);
+}
+
+/* Firefox scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(220, 20, 60, 0.5) transparent;
+}
+
+/* ============================================
+   COMPATIBILIDAD ENTRE NAVEGADORES
+   ============================================ */
+
+/* Normalizar tamaños de fuente base */
+img, svg, video, canvas, audio, iframe, embed, object {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Prevenir zoom excesivo en inputs en iOS */
+input, textarea, select {
+    font-size: 16px;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 1.15;
+}
+
+/* Prevenir desbordamiento horizontal */
+.container {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Gradientes animados */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.gradient-animated {
+    background: linear-gradient(270deg, crimson, #dc143c, #b22222);
+    background-size: 600% 600%;
+    animation: gradientShift 10s ease infinite;
+}
+
+/* Cards con glassmorphism */
+.card-modern {
+    background: linear-gradient(135deg, rgba(27, 27, 27, 0.95), rgba(36, 35, 35, 0.95));
+    border: 1px solid rgba(220, 20, 60, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.card-modern::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(220, 20, 60, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.card-modern:hover::before {
+    opacity: 1;
+}
+
+.card-modern:hover {
+    border-color: rgba(220, 20, 60, 0.8);
+    box-shadow: 0 8px 40px rgba(220, 20, 60, 0.3),
+                inset 0 0 20px rgba(220, 20, 60, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Cards adaptables al tema */
+.light .card-modern {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(249, 250, 251, 0.95));
+    border: 1px solid rgba(220, 20, 60, 0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.light .card-modern:hover {
+    box-shadow: 0 8px 30px rgba(220, 20, 60, 0.2),
+                inset 0 0 20px rgba(220, 20, 60, 0.05);
+}
+
+/* Botones con efectos avanzados */
+.btn-modern {
+    background: linear-gradient(135deg, crimson, #dc143c, #b22222);
+    background-size: 200% 200%;
+    box-shadow: 0 4px 15px rgba(220, 20, 60, 0.4);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-modern:hover::before {
+    left: 100%;
+}
+
+.btn-modern::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-modern:hover::after {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-modern:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 30px rgba(220, 20, 60, 0.6),
+                0 0 20px rgba(220, 20, 60, 0.4);
+    background-position: 100% 0;
+}
+
+.btn-modern:active {
+    transform: translateY(-1px) scale(0.98);
+    box-shadow: 0 4px 15px rgba(220, 20, 60, 0.5);
+}
+
+/* Botones pequeños */
+.btn-modern-sm {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-modern-sm:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.btn-modern-sm:active {
+    transform: translateY(0);
+}
+
+/* Utility para truncar texto */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Variantes de botones */
+.map-tool-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.map-tool-purple {
+    background: linear-gradient(135deg, #9333ea, #7e22ce);
+    color: white;
+}
+
+.map-tool-purple:hover {
+    background: linear-gradient(135deg, #a855f7, #9333ea);
+    box-shadow: 0 4px 20px rgba(147, 51, 234, 0.4);
+    transform: translateY(-2px);
+}
+
+.map-tool-indigo {
+    background: linear-gradient(135deg, #4f46e5, #4338ca);
+    color: white;
+}
+
+.map-tool-indigo:hover {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    box-shadow: 0 4px 20px rgba(79, 70, 229, 0.4);
+    transform: translateY(-2px);
+}
+
+.map-tool-teal {
+    background: linear-gradient(135deg, #14b8a6, #0d9488);
+    color: white;
+}
+
+.map-tool-teal:hover {
+    background: linear-gradient(135deg, #2dd4bf, #14b8a6);
+    box-shadow: 0 4px 20px rgba(20, 184, 166, 0.4);
+    transform: translateY(-2px);
+}
+
+.map-tool-rose {
+    background: linear-gradient(135deg, #f43f5e, #e11d48);
+    color: white;
+}
+
+.map-tool-rose:hover {
+    background: linear-gradient(135deg, #fb7185, #f43f5e);
+    box-shadow: 0 4px 20px rgba(244, 63, 94, 0.4);
+    transform: translateY(-2px);
+}
+
+.map-tool-green {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+}
+
+.map-tool-green:hover {
+    background: linear-gradient(135deg, #34d399, #10b981);
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+    transform: translateY(-2px);
+}
+
+.map-tool-blue {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+}
+
+.map-tool-blue:hover {
+    background: linear-gradient(135deg, #60a5fa, #3b82f6);
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Efectos de brillo */
+.glow {
+    box-shadow: 0 0 20px rgba(220, 20, 60, 0.5);
+}
+
+.glow-hover {
+    transition: all 0.3s ease;
+}
+
+.glow-hover:hover {
+    box-shadow: 0 0 30px rgba(220, 20, 60, 0.8);
+}
+
+/* Badges animados */
+@keyframes badgePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.badge-animated {
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+/* ============================================
+   LOADING SPINNER
+   ============================================ */
+
+/* Keyframe PRIMERO para evitar conflictos */
+@keyframes sismoSpinnerRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes sismoSpinnerGlow {
+    0%, 100% { box-shadow: 0 0 20px rgba(220, 20, 60, 0.6), 0 0 40px rgba(220, 20, 60, 0.3); }
+    50% { box-shadow: 0 0 30px rgba(220, 20, 60, 0.9), 0 0 60px rgba(220, 20, 60, 0.5); }
+}
+
+/* Clase base del spinner */
+div.spinner,
+.ml-container .spinner,
+.risk-container .spinner {
+    border: 4px solid rgba(220, 20, 60, 0.15);
+    border-top-color: #dc143c;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 0 auto;
+    animation-name: sismoSpinnerRotate;
+    animation-duration: 0.8s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Spinner con glow effect */
+div.spinner.spinner-glow,
+.ml-container .spinner.spinner-glow,
+.risk-container .spinner.spinner-glow {
+    animation-name: sismoSpinnerRotate, sismoSpinnerGlow;
+    animation-duration: 0.8s, 2s;
+    animation-timing-function: linear, ease-in-out;
+    animation-iteration-count: infinite, infinite;
+}
+
+/* Variantes de tamaño */
+.spinner-sm {
+    width: 24px;
+    height: 24px;
+    border-width: 3px;
+}
+
+.spinner-lg {
+    width: 64px;
+    height: 64px;
+    border-width: 5px;
+}
+
+/* Override Tailwind animate-spin si existe */
+.spinner[class*="animate-"] {
+    animation-name: sismoSpinnerRotate !important;
+    animation-duration: 0.8s !important;
+}
+
+/* Tooltips */
+.tooltip {
+    position: relative;
+}
+
+.tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: crimson;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover::after {
+    opacity: 1;
+}
+
+/* Efectos de fondo para tema claro */
+.light .bg-surface {
+    background-color: #f3f4f6 !important;
+}
+
+.light .text-white-color {
+    color: #1f2937 !important;
+}
+
+.light .text-text-secondary {
+    color: #6b7280 !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .gradient-animated {
+        background-size: 400% 400%;
+    }
+    
+    /* Ajuste de tamaño de fuente en móvil */
+    html {
+        font-size: 15px;
+    }
+    
+    /* Espaciado para móvil */
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+/* Media query para tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+    html {
+        font-size: 15.5px;
+    }
+}
+
+/* Media query para desktop */
+@media (min-width: 1025px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+/* Efectos de partículas */
+.particle-bg {
+    position: relative;
+    overflow: hidden;
+}
+
+.particle-bg::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(220, 20, 60, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(220, 20, 60, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 40% 80%, rgba(178, 34, 34, 0.1) 0%, transparent 35%);
+    animation: particleFloat 20s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.particle-bg::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        linear-gradient(45deg, transparent 48%, rgba(220, 20, 60, 0.03) 50%, transparent 52%),
+        linear-gradient(-45deg, transparent 48%, rgba(220, 20, 60, 0.03) 50%, transparent 52%);
+    background-size: 100px 100px;
+    animation: gridMove 30s linear infinite;
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+@keyframes particleFloat {
+    0%, 100% { 
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
+    }
+    25% { 
+        transform: translate(40px, -40px) rotate(90deg);
+        opacity: 0.8;
+    }
+    50% { 
+        transform: translate(-30px, 30px) rotate(180deg);
+        opacity: 0.9;
+    }
+    75% { 
+        transform: translate(20px, -20px) rotate(270deg);
+        opacity: 0.85;
+    }
+}
+
+@keyframes gridMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 100px 100px; }
+}
+
+/* Tema claro */
+.light .particle-bg::before {
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(220, 20, 60, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(220, 20, 60, 0.06) 0%, transparent 45%);
+}
+
+.light .particle-bg::after {
+    opacity: 0.15;
+}
+
+
+/* MAIN SECTION Ajustes generales */
+section {
+    padding-top: 50px;
+}
+.full-screen {
+    min-height: 100vh;
+    padding: 50px 0 0;
+}
+
+.left, .right {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 10px;
+}
+
+.left h2 {
+    margin-top: 15px;
+    font-size: var(--h2-font-size);
+    color: var(--white);
+    line-height: var(--h2-line-height);
+}
+.left h2 span {
+    color: var(--mainColor);
+}
+
+.btn {
+    height: 44px;
+    padding: 0px 30px;
+    background-color: var(--mainColor);
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+    letter-spacing: 1px;
+    border: none;
+    margin-top: 15px;
+    box-shadow: 0px 8px 24px 0 rgba(228, 10, 57, .2);
+    transition: all .2s linear;
+}
+.btn:hover {
+    background-color: var(--white);
+    color: var(--mainColor);
+    box-shadow: 0 8px 24px 0 rgba(138, 140, 146, .2);
+}
+
+/* NAV */
+nav {
+    width: 100%;
+    background-color: var(--black);
+    position: fixed;
+    z-index: 999;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav .logo {
+    color: var(--white);
+    font-size: 32px;
+    font-weight: 600;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+}
+nav .logo span {
+    color: var(--mainColor);
+}
+
+nav ul {
+    display: flex; /* Muestra el menú horizontalmente en escritorio (por defecto) */
+    gap: 15px;
+}
+nav ul li {
+    margin: 0;
+    list-style: none;
+}
+nav ul li a {
+    color: var(--white);
+    font-size: 16px;
+    font-weight: 600;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: all .3s ease;
+    text-decoration: none;
+}
+nav ul li a:hover {
+    color: var(--mainColor);
+    background: none;
+}
+
+/* Menu button (hamburger icon) styles - OCULTO por defecto en escritorio */
+.navbar .menu-btn {
+    display: none;
+    align-items: center;
+}
+
+.navbar .menu-btn i {
+    vertical-align: middle;
+}
+
+
+/* MAIN SECTION Ajustes generales */
+section {
+    padding-top: 50px;
+}
+.full-screen {
+    min-height: 100vh;
+    padding: 50px 0 0;
+}
+
+.left, .right {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 10px;
+}
+
+.left h2 {
+    margin-top: 15px;
+    font-size: var(--h2-font-size);
+    color: var(--white);
+    line-height: var(--h2-line-height);
+}
+.left h2 span {
+    color: var(--mainColor);
+}
+
+.btn {
+    height: 44px;
+    padding: 0px 30px;
+    background-color: var(--mainColor);
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+    letter-spacing: 1px;
+    border: none;
+    margin-top: 15px;
+    box-shadow: 0px 8px 24px 0 rgba(228, 10, 57, .2);
+    transition: all .2s linear;
+}
+.btn:hover {
+    background-color: var(--white);
+    color: var(--mainColor);
+    box-shadow: 0 8px 24px 0 rgba(138, 140, 146, .2);
+}
+
+/* Excepción para botones con gradiente rojo - mantener texto blanco en hover */
+button.bg-gradient-to-r:hover,
+.btn.bg-gradient-to-r:hover {
+    background: linear-gradient(to right, #b22222, #8b0000) !important;
+    color: white !important;
+    transform: scale(1.05);
+}
+
+/* Consejos de Seguridad en vertical */
+#consejos-seguridad {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+    padding: 30px;
+}
+#consejos-seguridad h2 {
+    font-size: 32px;
+    color: var(--mainColor);
+}
+#consejos-seguridad p {
+    font-size: 16px;
+    color: var(--whiteSmoke);
+    max-width: 600px;
+}
+
+/* Ajuste de espaciado en la barra de navegación */
+nav .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* MEDIA QUERIES - Estilos para pantallas PEQUEÑAS (móviles) */
+@media (max-width: 992px) {
+    nav ul {
+        display: none; /* OCULTA el menú horizontal en móviles */
+        position: fixed;
+        top: 85px;
+        left: -100%;
+        background-color: #1B1B1B;
+        height: auto;
+        width: 100%;
+        flex-direction: column;
+        padding: 20px;
+        text-align: center;
+        transition: all .3s ease;
+    }
+
+    nav .menu-btn {
+        display: block; /* MUESTRA el botón hamburguesa en móviles */
+    }
+
+    #click:checked ~ ul {
+        left: 0; /* Desplaza el menú lateral a la vista al marcar el checkbox */
+        display: flex; /* Asegura que se visualice como flex para el diseño vertical */
+        flex-direction: column; /* Redundancia para asegurar el diseño vertical */
+    }
+
+    nav ul li {
+        margin: 20px 0;
+    }
+    nav ul li a {
+        display: block;
+        font-size: 20px;
+    }
+    .left h2 {
+        font-size: 40px;
+    }
+    .left h2 span {
+        font-size: 42px;
+    }
+    .left p {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .left, .right {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    .left {
+        display: grid;
+        place-items: center;
+        order: 2;
+    }
+    .right {
+        order: 1;
+    }
+    .left h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        line-height: 2.8rem;
+    }
+    .left p, .social-media {
+        text-align: center;
+    }
+    .social-media {
+        margin: 20px 0;
+    }
+}
+
+@media (max-width: 400px) {
+    .left h2 {
+        font-size: 28px;
+        line-height: 32px;
+    }
+    .left h2 span {
+        font-size: 30px;
+    }
+}
+
+#magnitudeChart, #timeSeriesChart, #depthChart {
+    height: 300px;
+    max-height: 300px;
+}
+
+#info {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#earthquakeMap {
+    height: 500px;
+    width: 100%;
+    z-index: 1;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+@media (min-width: 768px) {
+    #earthquakeMap {
+        height: 550px;
+    }
+}
+
+@media (min-width: 1024px) {
+    #earthquakeMap {
+        height: 580px;
+    }
+}
+
+@media (min-width: 1440px) {
+    #earthquakeMap {
+        height: 600px;
+    }
+}
+
+@media (max-width: 640px) {
+    #earthquakeMap {
+        height: 400px;
+    }
+}
+
+#consejos-seguridad {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+    padding: 30px;
+}
+#consejos-seguridad h2 {
+    font-size: 32px;
+    color: var(--mainColor);
+}
+#consejos-seguridad p {
+    font-size: 16px;
+    color: var(--whiteSmoke);
+    max-width: 600px;
+}
+
+#contactos {
+    display: none;
+}
+
+nav .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.slider-container {
+    position: relative; 
+}
+
+.magnitude-tooltip {
+    position: absolute; /* Posicionamiento absoluto para colocarlo sobre el slider */
+    top: -35px;         /* Ajusta la distancia vertical desde el slider thumb */
+    left: 50%;          /* Centra horizontalmente inicialmente */
+    transform: translateX(-50%); /* Centra horizontalmente de forma precisa */
+    background-color: var(--mainColor); /* Color de fondo del tooltip - crimson */
+    color: var(--white);       /* Color del texto del tooltip - blanco */
+    padding: 5px 10px;       /* Padding interior del tooltip */
+    border-radius: 5px;       /* Bordes redondeados del tooltip */
+    font-size: 0.9em;        /* Tamaño de fuente del texto del tooltip */
+    white-space: nowrap;      /* Evita que el texto del tooltip se rompa en varias líneas */
+    opacity: 0;             /* Inicialmente oculto */
+    visibility: hidden;      /* Inicialmente oculto */
+    transition: opacity 0.2s, visibility 0.2s; /* Transición suave para aparecer/desaparecer */
+    z-index: 10;            /* Asegura que esté por encima del slider y otros elementos */
+    pointer-events: none;    /* Permite que los eventos del ratón pasen a través del tooltip */
+}
+
+.magnitude-tooltip::after { /* Pseudo-elemento para crear la "flecha" del tooltip */
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--mainColor) transparent transparent transparent; /* Triángulo hacia abajo con color crimson */
+}
+
+.custom-slider:active + .magnitude-tooltip, /* Muestra el tooltip cuando el slider está activo (se hace clic/se arrastra) */
+.custom-slider:focus + .magnitude-tooltip { /* También mostrarlo si el slider tiene el foco (por accesibilidad) */
+    opacity: 1;             /* Hace el tooltip visible */
+    visibility: visible;      /* Hace el tooltip visible */
+}
+
+/* Estilos personalizados para el control deslizante (range input) - CON RELLENO CRIMSON */
+.custom-slider {
+    -webkit-appearance: none; /* Elimina estilos por defecto de navegadores WebKit (Chrome, Safari) */
+    -moz-appearance: none;    /* Elimina estilos por defecto de Firefox */
+    appearance: none;         /* Elimina estilos por defecto genérico */
+    width: 100%;              /* Ancho completo del contenedor */
+    height: 8px;              /* Altura del track (barra) del slider */
+    background: var(--whiteSmoke); /* Color de fondo del track (barra) - base gris claro */
+    border-radius: 5px;       /* Bordes redondeados para el track */
+    outline: none;            /* Elimina el outline por defecto al enfocar */
+    -webkit-transition: .2s;  /* Transición suave para navegadores WebKit */
+    transition: opacity .2s;   /* Transición suave para otros navegadores */
+    cursor: pointer;          /* Cursor de "mano" al pasar por encima */
+    /*  Para el relleno crimson en WebKit (Chrome, Safari) - USANDO GRADIENTE LINEAL */
+    background-image: linear-gradient(to right, var(--black) 0%, var(--black) 0%, var(--black) 0%, var(--black) 100%);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.custom-slider:hover {
+    opacity: 1;               /* Opacidad completa al hacer hover (si quieres un efecto de hover) */
+}
+
+.custom-slider::-webkit-slider-thumb { /* Estilos para el "pulgar" (thumb) en navegadores WebKit */
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;               /* Ancho del "pulgar" */
+    height: 20px;              /* Alto del "pulgar" */
+    background: var(--black); /* Color de fondo del "pulgar" - color principal (crimson) */
+    cursor: pointer;          /* Cursor de "mano" en el "pulgar" */
+    border-radius: 50%;        /* Forma redonda para el "pulgar" */
+    border: 2px solid var(--black); /* Borde blanco para destacar el "pulgar" */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4); /* Sombra sutil para el "pulgar" */
+    transition: transform 0.2s ease-in-out; /* Transición suave para hover y active */
+    /*  Para que el "pulgar" no tape el relleno crimson -  MISMO COLOR DE FONDO QUE EL BODY */
+    background-clip: padding-box; /* Importante para que el padding-box no afecte el color de fondo */
+    -webkit-box-shadow: inset -1px 0 0 var(--black), inset 0 0 0 9999px var(--black); /* Sombra interna para "cortar" el fondo del pulgar y revelar el relleno */
+    box-shadow: inset -1px 0 0 var(--black), inset 0 0 0 9999px var(--black); /* Sombra interna para "cortar" el fondo del pulgar y revelar el relleno */
+	-webkit-background-color: var(--mainColor) !important; /* Color de fondo del pulgar - AHORA CRIMSON */
+    background-color: var(--mainColor) !important; /* Color de fondo del pulgar - AHORA CRIMSON */
+}
+
+.custom-slider::-moz-range-track { /* Estilos para el track en Firefox - NECESARIO PARA RELLENO */
+    background: var(--black);  /* Color base del track en Firefox */
+    border-radius: 5px;         /* Bordes redondeados en Firefox */
+    height: 8px;                /* Altura del track en Firefox */
+}
+
+
+.custom-slider::-moz-range-progress { /* Estilos para el RELLENO en Firefox */
+    background-color: var(--black); /* ¡RELLENO CRIMSON en Firefox! */
+    border-radius: 5px;         /* Bordes redondeados para el relleno en Firefox */
+    height: 8px;                /* Altura del relleno en Firefox - igual que el track */
+}
+
+
+.custom-slider::-moz-range-thumb { /* Estilos para el "pulgar" en Firefox */
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--black);
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid var(--white);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s ease-in-out;
+}
+
+
+.custom-slider::-webkit-slider-thumb:hover,
+.custom-slider::-moz-range-thumb:hover {
+    transform: scale(1.1); /* Ligeramente más grande al hacer hover */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada en hover */
+}
+
+.custom-slider::-webkit-slider-thumb:active,
+.custom-slider::-moz-range-thumb:active {
+    transform: scale(0.95); /* Ligeramente más pequeño al hacer clic */
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5) inset; /* Sombra interna al hacer clic */
+}
+
+.custom-slider:focus {
+    box-shadow: 0 0 0 3px var(--black); /* Resaltado visual al enfocar con tabulador */
+    border-color: var(--black);
+    outline: none;
+}
+
+.custom-slider:focus::-webkit-slider-thumb, /* Asegura que el focus se vea también en el "pulgar" en WebKit */
+.custom-slider:focus::-moz-range-thumb {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.6), 0 0 0 3px var(--black);
+}
+
+/* ============================================
+   MAPA INTERACTIVO - CIENTÍFICO
+   ============================================ */
+
+/* Contenedor del mapa  */
+#map {
+    border: 2px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* Controles del mapa */
+.leaflet-control-zoom a {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-color) !important;
+    transition: all 0.2s ease !important;
+}
+
+.leaflet-control-zoom a:hover {
+    background-color: var(--mainColor) !important;
+    color: white !important;
+    transform: scale(1.05);
+}
+
+/* Popup con diseño */
+.leaflet-popup {
+    margin-bottom: 20px;
+}
+
+/* Popup para no bloquear mapa */
+.leaflet-popup {
+    margin-bottom: 15px !important;
+}
+
+.leaflet-popup-content-wrapper {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border: 2px solid rgba(220, 20, 60, 0.3) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+    padding: 0 !important;
+    max-width: 280px !important;
+    min-width: 240px !important;
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+.leaflet-popup-content {
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+.leaflet-popup-tip {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+/* Botón de cerrar */
+.leaflet-container a.leaflet-popup-close-button {
+    top: 8px !important;
+    right: 8px !important;
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 18px !important;
+    color: white !important;
+    background: rgba(220, 20, 60, 0.8) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+    transition: all 0.2s ease !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button:hover {
+    background: rgba(220, 20, 60, 1) !important;
+    transform: scale(1.1) !important;
+}
+
+/* Prevenir bloqueo del mapa */
+.leaflet-pane.leaflet-popup-pane {
+    z-index: 700 !important;
+}
+
+/* El overlay del popup no debe bloquear clics */
+.leaflet-overlay-pane {
+    pointer-events: none !important;
+}
+
+.leaflet-overlay-pane > * {
+    pointer-events: auto !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+    color: var(--text-primary) !important;
+    font-size: 20px !important;
+    padding: 8px 12px !important;
+    transition: all 0.2s ease;
+}
+
+.leaflet-container a.leaflet-popup-close-button:hover {
+    color: var(--mainColor) !important;
+    transform: scale(1.1);
+}
+
+/* Popup header con gradiente */
+.earthquake-popup-header {
+    background: linear-gradient(135deg, #dc143c, #b22222);
+    padding: 12px 16px;
+    border-radius: 12px 12px 0 0;
+    margin: 0;
+    color: white;
+}
+
+.earthquake-popup-body {
+    padding: 16px;
+    background: var(--bg-card);
+}
+
+.earthquake-popup-footer {
+    padding: 12px 16px;
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 8px;
+    border-radius: 0 0 12px 12px;
+}
+
+/* Botones del popup */
+.popup-btn {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.popup-btn-primary {
+    background: linear-gradient(135deg, #dc143c, #b22222);
+    color: white;
+}
+
+.popup-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 20, 60, 0.4);
+}
+
+.popup-btn-secondary {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.popup-btn-secondary:hover {
+    background: var(--bg-surface);
+    border-color: var(--border-hover);
+}
+
+/* Info científica en popup */
+.popup-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.popup-info-item {
+    background: var(--bg-surface);
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.popup-info-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.popup-info-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.earthquake-marker {
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.earthquake-marker:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    z-index: 1000 !important;
+}
+
+/* Leyenda del mapa */
+.map-legend {
+    background: var(--bg-card);
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+}
+
+.legend-title {
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* Inputs y Selects */
+input[type="range"].custom-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 5px;
+    background: linear-gradient(to right, 
+        rgba(220, 20, 60, 0.3) 0%, 
+        rgba(220, 20, 60, 0.6) 50%, 
+        crimson 100%);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input[type="range"].custom-slider:hover {
+    box-shadow: 0 0 10px rgba(220, 20, 60, 0.4);
+}
+
+input[type="range"].custom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, crimson, #dc143c);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(220, 20, 60, 0.5);
+    transition: all 0.3s ease;
+}
+
+input[type="range"].custom-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 4px 12px rgba(220, 20, 60, 0.7);
+}
+
+input[type="range"].custom-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, crimson, #dc143c);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 8px rgba(220, 20, 60, 0.5);
+    transition: all 0.3s ease;
+}
+
+input[type="range"].custom-slider::-moz-range-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 4px 12px rgba(220, 20, 60, 0.7);
+}
+
+/* Select */
+select:not(#language-selector):not(#timePeriod):not(#mapStyle):not(#compare1):not(#compare2) {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23dc143c' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+select:hover {
+    border-color: rgba(220, 20, 60, 0.6);
+    box-shadow: 0 0 10px rgba(220, 20, 60, 0.2);
+}
+
+select:focus {
+    border-color: crimson;
+    box-shadow: 0 0 0 3px rgba(220, 20, 60, 0.2);
+}
+
+/* Language selector específico */
+#language-selector {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Panel de notificaciones */
+#notificationsPanel {
+    animation: slideInFromRight 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(120%) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+/* Scroll visible para filtros */
+#notificationsPanel .overflow-x-auto {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(220, 20, 60, 0.6) rgba(255, 255, 255, 0.1);
+}
+
+#notificationsPanel .overflow-x-auto::-webkit-scrollbar {
+    height: 4px;
+}
+
+#notificationsPanel .overflow-x-auto::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+#notificationsPanel .overflow-x-auto::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, rgba(220, 20, 60, 0.8), rgba(178, 34, 34, 0.8));
+    border-radius: 10px;
+}
+
+#notificationsPanel .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(90deg, crimson, #dc143c);
+}
+
+/* Filtros de notificaciones compactos */
+.notification-filter {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    border: 1px solid transparent;
+}
+
+.notification-filter:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(220, 20, 60, 0.3);
+    transform: scale(1.05);
+}
+
+.notification-filter.active {
+    background: linear-gradient(135deg, rgba(220, 20, 60, 0.9), rgba(178, 34, 34, 0.9));
+    color: white;
+    border-color: crimson;
+    box-shadow: 0 2px 8px rgba(220, 20, 60, 0.4);
+}
+
+/* Items de notificación compactos */
+.notification-item {
+    position: relative;
+    padding: 12px;
+    border-radius: 10px;
+    background: var(--bg-card);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+/* Barra lateral de color según tipo */
+.notification-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    transition: width 0.3s ease;
+}
+
+.notification-item.danger::before {
+    background: linear-gradient(180deg, #ef4444, #dc2626);
+}
+
+.notification-item.warning::before {
+    background: linear-gradient(180deg, #f59e0b, #d97706);
+}
+
+.notification-item.success::before {
+    background: linear-gradient(180deg, #10b981, #059669);
+}
+
+.notification-item.info::before {
+    background: linear-gradient(180deg, #3b82f6, #2563eb);
+}
+
+.notification-item:hover {
+    transform: translateX(-8px);
+    box-shadow: 0 8px 24px rgba(220, 20, 60, 0.2);
+    border-color: var(--border-hover);
+}
+
+.notification-item:hover::before {
+    width: 6px;
+}
+
+/* Notificaciones no leídas */
+.notification-item.unread {
+    background: linear-gradient(135deg, 
+        rgba(220, 20, 60, 0.1), 
+        var(--bg-card),
+        rgba(220, 20, 60, 0.05));
+    border-color: rgba(220, 20, 60, 0.3);
+}
+
+.notification-item.unread::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 6px;
+    height: 6px;
+    background: crimson;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px rgba(220, 20, 60, 0.2);
+    animation: pulseNotification 2s ease-in-out infinite;
+}
+
+@keyframes pulseNotification {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+}
+
+/* Iconos de notificación compactos */
+.notification-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.notification-item:hover .notification-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.notification-icon.danger {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.1));
+    color: #ef4444;
+}
+
+.notification-icon.warning {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.1));
+    color: #f59e0b;
+}
+
+.notification-icon.success {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.1));
+    color: #10b981;
+}
+
+.notification-icon.info {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.1));
+    color: #3b82f6;
+}
+
+/* Contenido de notificación compacto */
+.notification-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.notification-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+    line-height: 1.3;
+}
+
+.notification-message {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin-bottom: 4px;
+}
+
+.notification-time {
+    font-size: 10px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+/* Botón de eliminar notificación */
+.notification-delete {
+    opacity: 0;
+    transition: all 0.3s ease;
+    padding: 6px;
+    border-radius: 6px;
+    background: transparent;
+}
+
+.notification-item:hover .notification-delete {
+    opacity: 1;
+}
+
+.notification-delete:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    transform: scale(1.1);
+}
+
+/* Estado vacío de notificaciones compacto */
+.notifications-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+}
+
+.notifications-empty i {
+    font-size: 48px;
+    margin-bottom: 12px;
+    opacity: 0.3;
+}
+
+/* Animación de entrada de notificación */
+@keyframes notificationSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.notification-item {
+    animation: notificationSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Responsive para notificaciones */
+@media (max-width: 768px) {
+    #notificationsPanel {
+        width: calc(100vw - 2rem);
+        max-width: 380px;
+        max-height: 480px;
+        right: 1rem;
+        top: 5rem;
+    }
+    
+    #notificationsList {
+        max-height: 300px !important;
+    }
+    
+    .notification-filter {
+        font-size: 11px;
+        padding: 6px 10px;
+    }
+}
+
+/* Estadísticas con iconos */
+.stat-card {
+    position: relative;
+}
+
+/* Tarjetas de favoritos - permitir interacción con botones */
+#savedQuakes .card-modern {
+    overflow: visible !important;
+}
+
+#savedQuakes .card-modern::before {
+    z-index: 0 !important;
+    pointer-events: none !important;
+}
+
+#savedQuakes .card-modern > * {
+    position: relative;
+    z-index: 1;
+}
+
+#savedQuakes .card-modern button {
+    position: relative !important;
+    z-index: 100 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+#savedQuakes .card-modern button:hover {
+    z-index: 101 !important;
+}
+
+/* Sección de estadísticas - permitir interacción con gráficas */
+#estadisticas .card-modern {
+    overflow: visible !important;
+}
+
+#estadisticas .card-modern::before {
+    z-index: 0 !important;
+    pointer-events: none !important;
+}
+
+#estadisticas .card-modern canvas {
+    position: relative !important;
+    z-index: 10 !important;
+    pointer-events: auto !important;
+}
+
+#estadisticas .card-modern > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Asegurar que todos los elementos interactivos puedan recibir eventos */
+canvas {
+    pointer-events: auto !important;
+}
+
+/* Comparador - permitir interacción con selects */
+#comparador .card-modern,
+#comparador select,
+#comparador button {
+    pointer-events: auto !important;
+}
+
+#comparador .card-modern::before {
+    pointer-events: none !important;
+}
+
+/* Tooltips y overlays de Chart.js */
+.chartjs-tooltip {
+    z-index: 1000 !important;
+    pointer-events: none !important;
+}
+
+/* Asegurar interacción con todos los controles de formulario */
+select, input, button, a {
+    pointer-events: auto !important;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Loader */
+.loader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 40px;
+}
+
+.spinner-advanced {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(220, 20, 60, 0.1);
+    border-top: 4px solid crimson;
+    border-radius: 50%;
+    animation: spin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    position: relative;
+}
+
+.spinner-advanced::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(220, 20, 60, 0.1);
+    border-bottom: 4px solid crimson;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: spin 1.5s cubic-bezier(0.5, 0, 0.5, 1) infinite reverse;
+}
+
+#earthquakeMap {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+    height: 600px;
+    position: relative;
+}
+
+#earthquakeMap::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    box-shadow: inset 0 0 40px rgba(220, 20, 60, 0.1);
+    border-radius: 12px;
+}
+
+/* Lista de terremotos */
+#latestEarthquakes li {
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#latestEarthquakes li:hover {
+    transform: translateX(5px);
+    border-color: crimson;
+    box-shadow: 0 4px 12px rgba(220, 20, 60, 0.2);
+    background: linear-gradient(90deg, 
+        var(--bg-card), 
+        rgba(220, 20, 60, 0.05));
+}
+
+/* Noticias con hover */
+.news-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.news-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 30px rgba(220, 20, 60, 0.3);
+    border-color: crimson;
+}
+
+.news-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.news-card:hover img {
+    transform: scale(1.1);
+}
+
+/* Footer */
+footer a {
+    position: relative;
+    text-decoration: none;
+}
+
+footer a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: crimson;
+    transition: width 0.3s ease;
+}
+
+footer a:hover::after {
+    width: 100%;
+}
+
+#consejos .card-modern {
+    position: relative;
+    cursor: pointer;
+}
+
+#consejos .card-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, crimson, #dc143c, #b22222);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+#consejos .card-modern:hover::before {
+    transform: scaleX(1);
+}
+
+@media (max-width: 768px) {
+    #earthquakeMap {
+        height: 400px;
+    }
+    
+    .map-tool-btn span {
+        display: none;
+    }
+    
+    .card-modern {
+        margin-bottom: 16px;
+    }
+    
+    h2 {
+        font-size: 24px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #earthquakeMap {
+        height: 300px;
+    }
+    
+    .container {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}
+
+/* Animación de entrada para secciones */
+section {
+    animation: sectionFadeIn 0.6s ease-out;
+}
+
+@keyframes sectionFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.light {
+    background-color: #f8f9fa;
+}
+
+.light .card-modern {
+    background: white;
+    border: 1px solid #e5e7eb;
+}
+
+.light select,
+.light input {
+    background-color: white;
+    border-color: #d1d5db;
+    color: #111827;
+}
+
+.light .text-white-color {
+    color: #111827 !important;
+}
+
+.light .text-text-secondary {
+    color: #6b7280 !important;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+/* Controles científicos del mapa */
+.map-controls {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.map-control-group {
+    background: var(--bg-card);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.map-control-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+/* Badge de intensidad sísmica */
+.intensity-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.intensity-low {
+    background: #22c55e;
+    color: white;
+}
+
+.intensity-moderate {
+    background: #eab308;
+    color: white;
+}
+
+.intensity-high {
+    background: #f97316;
+    color: white;
+}
+
+.intensity-severe {
+    background: #dc2626;
+    color: white;
+}
+
+.marker-cluster {
+    background: rgba(30, 30, 30, 0.95);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    pointer-events: auto !important;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.marker-cluster:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(220, 20, 60, 0.5);
+    z-index: 1000 !important;
+}
+
+.marker-cluster-small {
+    width: 40px !important;
+    height: 40px !important;
+}
+
+.marker-cluster-medium {
+    width: 50px !important;
+    height: 50px !important;
+}
+
+.marker-cluster-large {
+    width: 60px !important;
+    height: 60px !important;
+}
+
+.marker-cluster .cluster-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.cluster-low {
+    background: linear-gradient(135deg, #4ade80, #22c55e);
+}
+
+.cluster-moderate {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+}
+
+.cluster-high {
+    background: linear-gradient(135deg, #fb923c, #f97316);
+}
+
+.cluster-severe {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.earthquake-marker {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    stroke-width: 2 !important;
+    stroke: #ffffff !important;
+}
+
+.earthquake-marker:hover {
+    transform: scale(1.15) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+    z-index: 1000 !important;
+    stroke-width: 3 !important;
+}
+
+/* Asegurar que los círculos SVG sean clickeables y visibles */
+.leaflet-overlay-pane svg,
+.leaflet-overlay-pane svg path {
+    pointer-events: auto !important;
+}
+
+.leaflet-overlay-pane svg path.earthquake-marker {
+    stroke: #ffffff !important;
+    stroke-width: 2 !important;
+    stroke-opacity: 1 !important;
+    fill-opacity: 0.85 !important;
+}
+
+.leaflet-overlay-pane svg circle {
+    stroke: #ffffff !important;
+    stroke-width: 2 !important;
+    cursor: pointer !important;
+}
+
+/* Forzar visibilidad en todos los niveles de zoom */
+.leaflet-zoom-animated .earthquake-marker {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.custom-earthquake-marker {
+    background: transparent !important;
+    border: none !important;
+    pointer-events: auto !important;
+}
+
+.quake-marker-inner {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+.quake-marker-inner:hover {
+    transform: scale(1.2) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6) !important;
+    z-index: 1000 !important;
+}
+
+/* Spinner de carga científico */
+.map-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--bg-card);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+}
+
+/* Tooltip científico */
+.scientific-tooltip {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 6px !important;
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+/* Medición de distancia */
+.distance-line {
+    stroke: var(--mainColor);
+    stroke-width: 3;
+    stroke-dasharray: 10, 5;
+    animation: dashAnimation 1s linear infinite;
+}
+
+@keyframes dashAnimation {
+    to {
+        stroke-dashoffset: -15;
+    }
+}
+/* ============================================
+   ANIMACIONES DE MAPA - VER EN MAPA
+   ============================================ */
+
+/* Animación de pulso para marcador temporal */
+@keyframes markerPulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.3);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Animación de onda expansiva */
+@keyframes waveExpand {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+/* Clase para marcador con pulso */
+.pulse-marker {
+    animation: markerPulse 0.8s ease-in-out infinite;
+    box-shadow: 0 0 20px rgba(220, 20, 60, 0.8);
+    transition: all 0.3s ease;
+}
+
+/* Clase para círculo de onda */
+.wave-circle {
+    animation: waveExpand 2s ease-out forwards;
+    pointer-events: none;
+}
+
+/* Efecto de brillo para el marcador destacado */
+.leaflet-marker-icon.highlighted {
+    filter: drop-shadow(0 0 15px rgba(220, 20, 60, 0.9));
+    animation: markerGlow 1.5s ease-in-out infinite;
+}
+
+@keyframes markerGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 10px rgba(220, 20, 60, 0.7));
+    }
+    50% {
+        filter: drop-shadow(0 0 25px rgba(220, 20, 60, 1));
+    }
+}
+
+/* Animación de zoom suave */
+@keyframes smoothZoom {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Transición suave para cambios de vista del mapa */
+.leaflet-container {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Estilo para popups cuando se abre desde "Ver en Mapa" */
+.leaflet-popup.auto-opened {
+    animation: smoothZoom 0.4s ease-out;
+}
+
+.leaflet-popup.auto-opened .leaflet-popup-content-wrapper {
+    box-shadow: 0 8px 32px rgba(220, 20, 60, 0.3);
+    border: 2px solid rgba(220, 20, 60, 0.4);
+}

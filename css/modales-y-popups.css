@@ -1,0 +1,504 @@
+/* ============================================
+   MODALES Y POPUPS
+   Archivo: modales-y-popups.css
+   
+   Propósito: Estilos para elementos emergentes:
+   - Popups compactos del mapa
+   - Modal de detalles de terremoto
+   - Botones de acción
+   - Animaciones de apertura/cierre
+   
+   Componentes:
+   - earthquake-popup-compact
+   - earthquake-detail-modal
+   - popup-buttons
+   ============================================ */
+
+/* Popup Compacto del Mapa */
+.earthquake-popup-compact {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg-card);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.popup-header-compact {
+    background: linear-gradient(135deg, #dc143c, #b22222);
+    padding: 12px 36px 12px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    min-height: 48px;
+    position: relative;
+}
+
+.popup-magnitude {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+}
+
+.intensity-badge {
+    flex-shrink: 0;
+    white-space: nowrap;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.popup-location {
+    padding: 8px 12px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.popup-details-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 10px 12px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 6px;
+    background: var(--bg-surface);
+    border-radius: 6px;
+}
+
+.detail-icon {
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.detail-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.popup-actions {
+    display: flex;
+    justify-content: space-around;
+    padding: 8px;
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-color);
+}
+
+.popup-action-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.popup-action-btn.save {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: white;
+}
+
+.popup-action-btn.saved {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.popup-action-btn.info {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+}
+
+.popup-action-btn.external {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white;
+}
+
+.popup-action-btn:not(:disabled):hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.popup-action-btn:not(:disabled):active {
+    transform: scale(0.95);
+}
+
+/* Leaflet popup overrides para compacto */
+.compact-popup .leaflet-popup-content-wrapper {
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    overflow: visible !important;
+}
+
+.compact-popup .leaflet-popup-content {
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+.compact-popup .leaflet-popup-tip {
+    background: var(--bg-card) !important;
+}
+
+/* Ajustar botón de cerrar de Leaflet */
+.compact-popup .leaflet-popup-close-button {
+    position: absolute !important;
+    top: 8px !important;
+    right: 8px !important;
+    width: 24px !important;
+    height: 24px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+    color: white !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    z-index: 1000 !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.compact-popup .leaflet-popup-close-button:hover {
+    background: rgba(220, 20, 60, 0.9) !important;
+    transform: scale(1.1) !important;
+}
+
+/* Overlay del Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    padding: 20px;
+}
+
+.modal-overlay:not(.hidden) {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Contenedor del Modal */
+.modal-container {
+    position: relative;
+    background: var(--bg-card);
+    border-radius: 12px;
+    max-width: 550px;
+    width: 100%;
+    max-height: calc(100vh - 40px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    transform: scale(0.95);
+    transition: transform 0.25s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-overlay:not(.hidden) .modal-container {
+    transform: scale(1);
+}
+
+/* Botón Cerrar - Fuera del contenido */
+.modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+}
+
+.modal-close:hover {
+    background: rgba(220, 20, 60, 0.9);
+    transform: rotate(90deg) scale(1.1);
+}
+
+.modal-close i {
+    font-size: 14px;
+}
+
+/* Contenido del Modal */
+.modal-content {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 100%;
+    border-radius: 12px;
+}
+
+/* Scroll personalizado */
+.modal-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: rgba(220, 20, 60, 0.5);
+    border-radius: 3px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(220, 20, 60, 0.7);
+}
+
+.modal-section {
+    margin-bottom: 24px;
+}
+
+.modal-section h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.info-grid-2col {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    font-size: 14px;
+}
+
+.info-grid-2col > div {
+    padding: 10px;
+    background: var(--bg-surface);
+    border-radius: 8px;
+    border-left: 3px solid var(--mainColor);
+}
+
+.info-grid-2col strong {
+    color: var(--mainColor);
+}
+
+/* Barra de energía visual */
+.energy-visual {
+    height: 24px;
+    background: var(--bg-surface);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 12px 0;
+}
+
+.energy-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #22c55e, #fbbf24, #f97316, #dc2626);
+    transition: width 1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px;
+    color: white;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.energy-comparison {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-top: 8px;
+}
+
+/* Tarjetas de ondas */
+.waves-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.wave-card {
+    background: var(--bg-surface);
+    padding: 16px;
+    border-radius: 12px;
+    text-align: center;
+    border: 2px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.wave-card:hover {
+    border-color: var(--mainColor);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(220, 20, 60, 0.2);
+}
+
+.wave-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 12px;
+    background: linear-gradient(135deg, #dc143c, #b22222);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+}
+
+.wave-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.wave-speed {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--mainColor);
+}
+
+/* Badges de clasificación */
+.classification-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.badge-green { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+.badge-yellow { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+.badge-orange { background: rgba(249, 115, 22, 0.2); color: #f97316; }
+.badge-orange-red { background: rgba(255, 107, 53, 0.2); color: #ff6b35; }
+.badge-red { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+.badge-dark-red { background: rgba(220, 38, 38, 0.2); color: #dc2626; }
+.badge-crimson { background: rgba(220, 20, 60, 0.2); color: #dc143c; }
+.badge-blue { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+.badge-indigo { background: rgba(99, 102, 241, 0.2); color: #6366f1; }
+.badge-purple { background: rgba(139, 92, 246, 0.2); color: #8b5cf6; }
+
+/* Acciones del modal */
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-color);
+}
+
+.modal-btn {
+    flex: 1;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.modal-btn.primary {
+    background: linear-gradient(135deg, #dc143c, #b22222);
+    color: white;
+}
+
+.modal-btn.secondary {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.modal-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.modal-btn.primary:hover {
+    box-shadow: 0 4px 12px rgba(220, 20, 60, 0.4);
+}
+
+.modal-btn:active {
+    transform: translateY(0);
+}
+
+/* Scrollbar del modal */
+.earthquake-modal-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+.earthquake-modal-content::-webkit-scrollbar-track {
+    background: var(--bg-surface);
+}
+
+.earthquake-modal-content::-webkit-scrollbar-thumb {
+    background: var(--mainColor);
+    border-radius: 5px;
+}
+
+.earthquake-modal-content::-webkit-scrollbar-thumb:hover {
+    background: #b22222;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .earthquake-modal-content {
+        width: 95%;
+        max-height: 90vh;
+    }
+    
+    .info-grid-2col {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+    }
+    
+    .popup-details-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+    }
+}
