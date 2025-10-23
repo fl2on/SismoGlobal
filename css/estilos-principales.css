@@ -2433,3 +2433,70 @@ section {
     box-shadow: 0 8px 32px rgba(220, 20, 60, 0.3);
     border: 2px solid rgba(220, 20, 60, 0.4);
 }
+
+/* ============================================
+   BLOQUEO DE DISPOSITIVOS MÓVILES Y TABLETS
+   Este sitio NO es compatible con móviles ni tablets
+   ============================================ */
+
+/* Bloquear pantallas pequeñas (móviles y tablets) */
+@media only screen and (max-width: 1023px) {
+    body:not(#mobile-warning) {
+        overflow: hidden !important;
+        user-select: none !important;
+        pointer-events: none !important;
+    }
+    
+    /* Forzar que el contenido principal no sea visible */
+    nav, main, section, footer, 
+    .hero-section, .map-section, 
+    .stats-section, .news-section {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+    
+    /* Asegurar que el mensaje de advertencia sea visible */
+    #mobile-warning {
+        display: flex !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+    }
+}
+
+/* Detectar orientación de dispositivos móviles */
+@media only screen and (orientation: portrait) and (max-width: 1023px) {
+    body {
+        overflow: hidden !important;
+    }
+}
+
+@media only screen and (orientation: landscape) and (max-height: 768px) {
+    body {
+        overflow: hidden !important;
+    }
+}
+
+/* Prevenir zoom en dispositivos táctiles */
+@media (hover: none) and (pointer: coarse) {
+    body {
+        touch-action: none !important;
+        -webkit-touch-callout: none !important;
+        -webkit-user-select: none !important;
+        user-select: none !important;
+    }
+}
+
+/* Mensaje específico para iPads y tablets grandes */
+@media only screen 
+  and (min-width: 768px) 
+  and (max-width: 1023px) {
+    #mobile-warning h1:after {
+        content: " (Tablets No Soportadas)";
+        display: block;
+        font-size: 18px;
+        margin-top: 10px;
+        opacity: 0.8;
+    }
+}
